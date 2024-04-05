@@ -1,0 +1,518 @@
+<moqui.security.user.NotificationTopic topic="InventoryWarningMin" description="Warning Minimum Inventory"
+                                           typeString="warning" showAlert="Y" titleTemplate="The quantity of existing items is currently less than the minimum inventory quantity of ${number} records."
+                                           linkTemplate="/logistics/inventory/inventory"
+                                           persistOnSend="Y"
+    />
+    <moqui.security.user.NotificationTopic topic="InventoryWarningMax" description="Warning Maximum Inventory"
+                                           typeString="warning" showAlert="Y" titleTemplate="The quantity of existing items has exceeded the maximum inventory quantity of ${number} records."
+                                           linkTemplate="/logistics/inventory/inventory"
+                                           persistOnSend="Y"
+    />
+    <moqui.service.job.ServiceJob jobName="InventoryWarningMin" description="Warning Minimum Inventory"
+                                  serviceName="gsources.commons.NotificationServices.warn#InventoryNotification"
+                                  cronExpression="0 30 0 * * ?" paused="N"
+    >
+        <parameters parameterName="inventoryWarningNotification" parameterValue="min"/>
+    </moqui.service.job.ServiceJob>
+    <moqui.service.job.ServiceJob jobName="InventoryWarningMax" description="Warning Maximum Inventory"
+                                  serviceName="gsources.commons.NotificationServices.warn#InventoryNotification"
+                                  cronExpression="0 30 0 * * ?" paused="N"
+    >
+        <parameters parameterName="inventoryWarningNotification" parameterValue="max"/>
+    </moqui.service.job.ServiceJob>
+
+<moqui.basic.LocalizedMessage locale="default" original="WorkEffort not found with ID ${workEffortId}" localized="Không tìm thấy danh sách chọn: ${workEffortId}."/>
+    <moqui.basic.LocalizedMessage locale="default" original="Product Store ID ${productStoreId} does not contain facility with ID ${facilityId}" localized="Cửa hàng có ID ${productStoreId} không chứa kho nào với ID ${facilityId}."/>
+    <moqui.basic.LocalizedMessage locale="default" original="Facility not found with ID ${facilityId}" localized="Không tìm thấy kho hàng nào với ID ${facilityId}."/>
+    <moqui.basic.LocalizedMessage locale="default" original="ProductStore not found with ID ${productStoreId}" localized="Không tìm thấy cửa hàng nào với ID ${productStoreId}."/>
+    <moqui.basic.LocalizedMessage locale="default" original="Product Store ID ${productStoreId} does not contain facility with ID ${facilityId}" localized="Cửa hàng có ID ${productStoreId} không chứa kho nào với ID ${facilityId}."/>
+    <moqui.basic.LocalizedMessage locale="default" original="Action ${action} can not realize" localized="Hành động ${action} không thể thực hiện."/>
+    <moqui.basic.LocalizedMessage locale="default" original="This Party have a ${roleTypeDesc} role in this Picklist" localized="Nhân viên này đã có vai trò ${roleTypeDesc} trong danh sách chọn."/>
+    <moqui.basic.LocalizedMessage locale="default" original="Shipment not found with ID ${shipmentId}" localized="Không tìm thấy lô hàng với ID ${shipmentId}."/>
+    <moqui.basic.LocalizedMessage locale="default" original="This Equipment not found with ID ${assetId}" localized="Thiết bị này không được tìm thấy với ID ${assetId}."/>
+    <moqui.basic.LocalizedMessage locale="default" original="This Equipment is not in The Picklist." localized="Thiết bị này không có trong danh sách chọn."/>
+    <moqui.basic.LocalizedMessage locale="default" original="There is no valid assigned equipment with fromDate ${fromDate}." localized="Không có thiết bị được gán hợp lệ với ngày bắt đầu từ ${fromDate}."/>
+
+    <moqui.basic.LocalizedMessage locale="default" original="Party not found with ID ${partyId}" localized="Không tim thấy Đối tác, Tổ chức nào có ID = ${partyId}"/>
+    <moqui.basic.LocalizedMessage locale="default" original="This Role is invalid" localized="Vai trò này không hợp lệ."/>
+    <moqui.basic.LocalizedMessage locale="default" original="No Facility in this Picklist with ID = ${workEffortId}" localized="Không có kho nào trong danh sách chọn có ID = ${workEffortId}."/>
+    <moqui.basic.LocalizedMessage locale="default" original="From date should be less than Thru date." localized="Ngày lọc bắt đầu không thể ở sau ngày lọc kết thúc. "/>
+    <moqui.basic.LocalizedMessage locale="default" original="Entry Number cannot be negative." localized="Số nhập vào không thể là số âm."/>
+    <moqui.basic.LocalizedMessage locale="default" original="This Shipment is in an untrackable state." localized="Lô hàng này đang trong trạng thái không thể theo dõi."/>
+    <moqui.basic.LocalizedMessage locale="default" original="There is no this type of equipment with ID = ${assetId}" localized="Số lượng loại thiết bị với ID = ${assetId} đã hết."/>
+    <moqui.basic.LocalizedMessage locale="default" original="No route segment found on Shipment ${shipmentId}" localized="Không có đoạn đường nào được tìm thấy trong Shipment ${shipmentId}"/>
+    <moqui.basic.LocalizedMessage locale="default" original="Could not find carrier with ID ${carrierPartyId}" localized="Không tìm được đơn vị vận chuyển nào có ID = ${carrierPartyId}"/>
+    <moqui.basic.LocalizedMessage locale="default" original="This party is not a carrier." localized="Đối tác này không phải đơn vị vận chuyển."/>
+    <moqui.basic.LocalizedMessage locale="default" original="Shipment ${shipmentId} is not an outgoing or transfer shipment" localized="Lô hàng ${shipmentId} không phải là lô hàng xuất hoặc chuyển giao."/>
+    <moqui.basic.LocalizedMessage locale="default" original="Maximum Stock Value cannot be less than Minimum Stock Value!" localized="Giá trị Tồn tối đa không thể nhỏ hơn Giá trị Tồn tối thiểu!"/>
+    <moqui.basic.LocalizedMessage locale="default" original="Entry value is not valid." localized="Giá trị nhập vào không hợp lệ."/>
+
+<moqui.basic.LocalizedMessage original="Logistics Employee" locale="vi_VN" localized="Nhân Viên Kho Vận"/>
+    <moqui.basic.LocalizedMessage original="Logistics Manager" locale="vi_VN" localized="Quản Lý Vận Kho"/>
+    <moqui.basic.LocalizedMessage original="Shipper" locale="vi_VN" localized="Nhân Viên Giao Hàng"/>
+
+<!--ReturnReason-->
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RrsnDamagedShip" locale="vi_VN" localized="Không gọi được cho khách nhiều lần"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RrsnDefective" locale="vi_VN" localized="Hàng lỗi"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RrsnMisShip" locale="vi_VN" localized="Không gặp được khách hàng"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RrsnNotExpected" locale="vi_VN" localized="Sản phẩm không như mong đợi"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RrsnWrongSize" locale="vi_VN" localized="Chuyển đổi kích cỡ"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RrsnDupShip" locale="vi_VN" localized="Hàng trùng lặp"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RrsnGiftNotWant" locale="vi_VN" localized="Hàng không mong muốn"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RrsnArrivedLate" locale="vi_VN" localized="Hàng giao trễ"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RrsnDidNotWant" locale="vi_VN" localized="Khách hàng không thích/muốn"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RrsnBetterPrice" locale="vi_VN" localized="Tìm được giá tốt hơn"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RrsnPoorService" locale="vi_VN" localized="Dịch vụ chăm sóc khách hàng không tốt"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RrsnUnlikeDescribed" locale="vi_VN" localized="Khác hình ảnh/mô tả"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RrsnCodPmtRejected" locale="vi_VN" localized="Từ chối thanh toán COD"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RrsnOrderAdj" locale="vi_VN" localized="Điều chỉnh đơn hàng"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RrsnOther" locale="vi_VN" localized="Lý do khác"/>
+
+<!--Shipment Box Type-->
+    <mantle.shipment.ShipmentBoxType shipmentBoxTypeId="Bubble_Mailers" pseudoId="Bubble_Mailers" description="Túi bong bóng khí"/>
+    <mantle.shipment.ShipmentBoxType shipmentBoxTypeId="Foil_Sealed_Bags" pseudoId="Foil_Sealed_Bags" description="Túi nhôm"/>
+    <mantle.shipment.ShipmentBoxType shipmentBoxTypeId="Jute_Bags" pseudoId="Jute_Bags" description="Túi xách vải đay"/>
+    <mantle.shipment.ShipmentBoxType shipmentBoxTypeId="Cotton_Bags" pseudoId="Cotton_Bags" description="Túi Cotton"/>
+    <mantle.shipment.ShipmentBoxType shipmentBoxTypeId="Corrugated_Boxes" pseudoId="Corrugated_Boxes" description="Thùng Carton"/>
+    <mantle.shipment.ShipmentBoxType shipmentBoxTypeId="Paperboard_Boxes" pseudoId="Paperboard_Boxes" description="Hộp bìa giấy"/>
+
+<moqui.basic.Enumeration description="Picklist Roles" enumId="RgpPicklist" enumTypeId="RoleGroup"/>
+<!--    Picklist -->
+    <mantle.party.RoleGroupMember roleGroupEnumId="RgpPicklist" roleTypeId="_NA_"/>
+    <mantle.party.RoleGroupMember roleGroupEnumId="RgpPicklist" roleTypeId="Manager"/>
+    <mantle.party.RoleGroupMember roleGroupEnumId="RgpPicklist" roleTypeId="Picker"/>
+    <mantle.party.RoleGroupMember roleGroupEnumId="RgpPicklist" roleTypeId="Packer"/>
+    <mantle.party.RoleGroupMember roleGroupEnumId="RgpPicklist" roleTypeId="Worker"/>
+
+
+<mantle.party.PartySettingType partySettingTypeId="OrgPurchaseOrderDayWarningNotCompleted" description="Báo động đơn hàng đã chưa hoàn thành quá số ngày quy định kể từ ngày tạo đơn.">
+        <roles roleTypeId="OrgInternal"/></mantle.party.PartySettingType>
+<mantle.party.PartySetting partyId="ORG_COMPANY_CORP" partySettingTypeId="OrgPurchaseOrderDayWarningNotCompleted" settingValue="4"/>
+
+<moqui.basic.Enumeration description="Other" enumId="PctOther" enumTypeId="ProductCategoryType"/>
+<!-- Demo Other Categories -->
+    <mantle.product.category.ProductCategory productCategoryId="NewProducts"
+            productCategoryTypeEnumId="PctOther" categoryName="Danh mục hàng mới"/>
+    <mantle.product.category.ProductCategory productCategoryId="BestSelling"
+                                             productCategoryTypeEnumId="PctOther" categoryName="Danh mục hàng bán chạy"/>
+    <mantle.product.category.ProductCategory productCategoryId="SlowSelling"
+                                             productCategoryTypeEnumId="PctOther" categoryName="Danh mục hàng bán chậm"/>
+
+<!--Upload ngày 21/12/2023 - chưa upload-->
+<!--Time Period Type - Payroll-->
+    <moqui.basic.LocalizedMessage locale="default" original="The start date may not be greater than the end date" localized="Ngày đầu không thể ở sau ngày cuối"/>
+
+<!--Timesheet-->
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.StatusItem" fieldName="description" pkValue="TmshInProcess" locale="vi_VN" localized="Đang tiến hành"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.StatusItem" fieldName="description" pkValue="TmshCompleted" locale="vi_VN" localized="Hoàn thành"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.StatusItem" fieldName="description" pkValue="TmshApproved" locale="vi_VN" localized="Đã duyệt"/>
+
+<!--Time Period Message-->
+    <moqui.basic.LocalizedMessage locale="default" original="Not closing period ${ec.resource.expand('TimePeriodNameTemplate','',timePeriod)}, previous period ${ec.resource.expand('TimePeriodNameTemplate','',previousTimePeriod)} not closed."
+                                  localized="Kỳ ${ec.resource.expand('TimePeriodNameTemplate','',timePeriod)} không đóng được do kỳ trước là ${ec.resource.expand('TimePeriodNameTemplate','',previousTimePeriod)} không đóng."/>
+    <moqui.basic.LocalizedMessage locale="default" original="Not closing period ${ec.resource.expand('TimePeriodNameTemplate','',timePeriod)}, child period ${ec.resource.expand('TimePeriodNameTemplate','',childTimePeriod)} not closed."
+                                  localized="Kỳ ${ec.resource.expand('TimePeriodNameTemplate','',timePeriod)} không đóng được do kỳ con là ${ec.resource.expand('TimePeriodNameTemplate','',previousTimePeriod)} không đóng."/>
+<moqui.basic.LocalizedMessage locale="default" original="It has NextTimePeriod so it can not be deleted" localized="Do có Kỳ thanh toán kế sau nên không thể xóa" />
+    <moqui.basic.LocalizedMessage locale="default" original="It has ChildTimePeriod so it can not be deleted" localized="Do có Kỳ thanh toán con nên không thể xóa" />
+<!-- Timesheet -->
+    <moqui.basic.LocalizedMessage locale="default" original="There is a Timesheet overlaps with the time you are entering." localized="Đã có Bảng chấm công chồng lấn Kỳ lương" />
+    <moqui.basic.LocalizedMessage locale="default" original="Timesheet of this TimeEntry has completed or approved" localized="Bảng chấm công đã Hoàn Thành hoặc đã Duyệt" />
+    <moqui.basic.LocalizedMessage locale="default" original="This timesheet cannot be deleted because of existing timeEntryList" localized="Bảng chấm công không thể xóa do có nhân viên được ghi công" />
+    <moqui.basic.LocalizedMessage locale="default" original="This timesheet does not exist" localized="Bảng chấm công không tồn tại" />
+    <moqui.basic.LocalizedMessage locale="default" original="This timesheet's status is Approved (end Status)" localized="Trạng thái Bảng chấm công là Đã Duyệt (trạng thi cuối)" />
+    <moqui.basic.LocalizedMessage locale="default" original="The Timesheet has completed or approved" localized="Bảng chấm công đã Hoàn Thành hoặc đã Duyệt" />
+    <moqui.basic.LocalizedMessage locale="default" original="This Party has had a TimeEntry with Timesheet ID = ${timesheetId}" localized="Nhân viên này đã có bản ghi công với Timesheet ID = ${timesheetId}" />
+    <moqui.basic.LocalizedMessage locale="default" original="Hours may not be less than 0" localized="Giờ công không thể nhỏ hơn 0" />
+
+<!--Chưa upload ngày 28/12/2023-->
+<!--PayrollAdjCalc-->
+    <moqui.basic.LocalizedMessage original="fullTimeStandardHours" locale="vi_VN" localized="Giờ công full-time chuẩn"/>
+    <moqui.basic.LocalizedMessage original="fullTimeStandardDays" locale="vi_VN" localized="Ngày công full-time chuẩn"/>
+    <moqui.basic.LocalizedMessage original="partTimeStandardHours" locale="vi_VN" localized="Giờ công part-time chuẩn"/>
+    <moqui.basic.LocalizedMessage original="partTimeStandardDays" locale="vi_VN" localized="Ngày công part-time chuẩn"/>
+    <moqui.basic.LocalizedMessage original="familyDependDeductionAmount" locale="vi_VN" localized="Giảm trừ gia cảnh"/>
+    <moqui.basic.LocalizedMessage original="familyDependQuantity" locale="vi_VN" localized="Số người phụ thuộc"/>
+    <moqui.basic.LocalizedMessage original="personalDeductionAmount" locale="vi_VN" localized="Thuế thu nhập cá nhân"/>
+<!-- Chưa upload ngày 02/01/2024 -->
+<moqui.basic.LocalizedMessage original="flatAmount may not be negative" locale="default" localized="flatAmount không thể âm được"/>
+<moqui.basic.LocalizedMessage original="payrollAdj not exist" locale="default" localized="payrollAdj không tồn tại"/>
+<moqui.basic.LocalizedMessage original="Party ${partyId} is not in The Party Relationship of this PayrollAdjustment ${payrollAdjustmentId}" 
+                              locale="default" localized="Nhân viên ${partyId} không ở trong relationship với PayrollAdjustment ${payrollAdjustmentId}"/>
+
+<!--EmplPosition-->
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.StatusItem" fieldName="description" pkValue="EmpsPlanned" locale="vi_VN" localized="Lên kế hoạch"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.StatusItem" fieldName="description" pkValue="EmpsActive" locale="vi_VN" localized="Đang hoạt động"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.StatusItem" fieldName="description" pkValue="EmpsInactive" locale="vi_VN" localized="Không hoạt động"/>
+
+            <mantle.party.time.TimePeriodType description="Kỳ thanh toán năm" timePeriodTypeId="PayrollYear"
+                    periodPurposeEnumId="Payroll" periodLength="1" lengthUomId="TF_yr"/>
+            <mantle.party.time.TimePeriodType description="Kỳ thanh toán nửa năm" timePeriodTypeId="PayrollSemiYear"
+                    parentPeriodTypeId="PayrollYear" periodPurposeEnumId="Payroll" periodLength="6" lengthUomId="TF_mon"/>
+            <mantle.party.time.TimePeriodType description="Kỳ thanh toán quý" timePeriodTypeId="PayrollQuarter"
+                    parentPeriodTypeId="PayrollYear" periodPurposeEnumId="Payroll" periodLength="3" lengthUomId="TF_mon"/>
+            <mantle.party.time.TimePeriodType description="Kỳ thanh toán tháng" timePeriodTypeId="PayrollMonth"
+                    parentPeriodTypeId="PayrollQuarter" periodPurposeEnumId="Payroll" periodLength="1" lengthUomId="TF_mon"/>
+            <mantle.party.time.TimePeriodType description="Kỳ thanh toán nửa tháng" timePeriodTypeId="PayrollSemiMonth"
+                    parentPeriodTypeId="PayrollMonth" periodPurposeEnumId="Payroll" periodLength="0.5" lengthUomId="TF_mon"/>
+            <mantle.party.time.TimePeriodType description="Kỳ thanh toán hai tuần" timePeriodTypeId="PayrollBiWeek"
+                    parentPeriodTypeId="PayrollMonth" periodPurposeEnumId="Payroll" periodLength="2" lengthUomId="TF_wk"/>
+            <mantle.party.time.TimePeriodType description="Kỳ thanh toán tuần" timePeriodTypeId="PayrollWeek"
+                    parentPeriodTypeId="PayrollMonth" periodPurposeEnumId="Payroll" periodLength="1" lengthUomId="TF_wk"/>
+<!--Chưa upload ngày 05/01/2023-->
+<!--EmplPositionClass-->
+    <mantle.humanres.position.EmplPositionClass title="Project Manager" emplPositionClassId="ProjectManager" description="Quản lý dự án"/>
+    <mantle.humanres.position.EmplPositionClass title="General Manager" emplPositionClassId="GeneralManager" description="Giám đốc"/>
+    <mantle.humanres.position.EmplPositionClass title="Quality Analyst" emplPositionClassId="QualityAnalyst" description="Phân tích chất lượng"/>
+    <mantle.humanres.position.EmplPositionClass title="Quality Lead" emplPositionClassId="QualityLead" description="Quản lý chất lượng"/>
+    <mantle.humanres.position.EmplPositionClass title="Programmer" emplPositionClassId="Programmer" description="Lập trình viên"/>
+    <mantle.humanres.position.EmplPositionClass title="Programmer Lead" emplPositionClassId="ProgrammerLead" description="Quản lý lập trình viên"/>
+    <mantle.humanres.position.EmplPositionClass title="System Administrator" emplPositionClassId="SysAdmin" description="Quản trị hệ thống"/>
+    <mantle.humanres.position.EmplPositionClass title="System Architect" emplPositionClassId="SysArchitect" description="Kiến trúc sư hệ thống"/>
+    <mantle.humanres.position.EmplPositionClass title="Business Analyst" emplPositionClassId="BusinessAnalyst" description="Phân tích nghiệp vụ"/>
+    <mantle.humanres.position.EmplPositionClass title="Expert User" emplPositionClassId="ExpertUser" description="Expert User"/>
+
+    <!--PayrollAdjCalc-->
+    <moqui.basic.LocalizedMessage original="fullTimeStandardHours" locale="vi_VN" localized="Giờ công full-time chuẩn"/>
+    <moqui.basic.LocalizedMessage original="fullTimeStandardDays" locale="vi_VN" localized="Ngày công full-time chuẩn"/>
+    <moqui.basic.LocalizedMessage original="partTimeStandardHours" locale="vi_VN" localized="Giờ công part-time chuẩn"/>
+    <moqui.basic.LocalizedMessage original="partTimeStandardDays" locale="vi_VN" localized="Ngày công part-time chuẩn"/>
+    <moqui.basic.LocalizedMessage original="familyDependDeductionAmount" locale="vi_VN" localized="Số tiền giảm trừ trên mỗi người phụ thuộc"/>
+    <moqui.basic.LocalizedMessage original="familyDependQuantity" locale="vi_VN" localized="Số người phụ thuộc"/>
+    <moqui.basic.LocalizedMessage original="personalDeductionAmount" locale="vi_VN" localized="Giảm trừ của bản thân"/>
+<!--Chưa upload ngày 09/01/2024-->
+    <moqui.basic.LocalizedMessage original="fromDate familyDependQuantity Not valid" locale="default" localized="Ngày bắt đầu của Số người phụ thuộc không hợp lệ"/>
+    <moqui.basic.LocalizedMessage original="fromDate familyDependDeductionAmount Not valid" locale="default" localized="Ngày bắt đầu của Số tiền giảm trừ trên mỗi người phụ thuộc không hợp lệ"/>
+    <moqui.basic.LocalizedMessage original="fromDate personalDeductionAmount Not valid" locale="default" localized="Ngày bắt đầu của Giảm trừ của bản thân không hợp lệ"/>
+<!--Chưa upload ngày 10/01/2024-->
+<moqui.basic.LocalizedMessage locale="default" original="The interval you enter has existed" localized="Đã có Kỳ lương ở khoảng thời gian này" />
+    <moqui.basic.LocalizedMessage locale="default" original="This Next Time Period has existed" localized="Kỳ Lương kế tiếp này đã tồn tại" />
+    <moqui.basic.LocalizedMessage locale="default" original="If you don't enter previousPeriodId, you must enter both fromDate and thruDate" 
+                                  localized="Nếu không truyền Kỳ lương trước, bạn phải truyền cả ngày bắt đầu và kết thúc Kỳ lương" />
+<moqui.basic.LocalizedMessage locale="default" original="The Time Period Type must be that of previousPeriod ${previousPeriod.periodName}" localized="Loại Kỳ Lương phải giống với Loại Kỳ Lương của ${previousPeriod.periodName}" />
+<!--Chưa upload 11/01/2024-->
+<moqui.security.UserPermission userPermissionId="HR_MANAGEMENT" description="Human Resources Manager"/>
+<moqui.security.UserGroupPermission userGroupId="HR_MNG" userPermissionId="HR_MANAGEMENT" fromDate="0"/>
+
+<moqui.basic.LocalizedMessage locale="default" original="Payroll Adjustment has existed in the time you enter" localized="Thời gian bạn nhập đã có chồng lấn lên cấu hình cũ của Loại chi phí này" />
+<!--Chưa upload ngày 16/01/2024-->
+<moqui.basic.LocalizedMessage original="thruDate familyDependQuantity Not valid" locale="default" localized="Ngày kết thúc của Số người phụ thuộc không hợp lệ"/>
+    <moqui.basic.LocalizedMessage original="thruDate familyDependDeductionAmount Not valid" locale="default" localized="Ngày kết thúc của Số tiền giảm trừ trên mỗi người phụ thuộc không hợp lệ"/>
+    <moqui.basic.LocalizedMessage original="thruDate personalDeductionAmount Not valid" locale="default" localized="Ngày kết thúc của Giảm trừ của bản thân không hợp lệ"/>
+    <moqui.basic.LocalizedMessage original="When existing familyDependQuantity parameter after, thruDate familyDependQuantity must be entered" locale="default"
+                                  localized="Khi có kỳ sau của Số người phụ thuộc thì phải nhập ngày kết thúc"/>
+    <moqui.basic.LocalizedMessage original="When existing familyDependDeductionAmount parameter after, thruDate familyDependDeductionAmount must be entered" locale="default"
+                                  localized="Khi có kỳ sau của Số tiền giảm trừ trên mỗi người phụ thuộc thì phải nhập ngày kết thúc"/>
+    <moqui.basic.LocalizedMessage original="When existing personalDeductionAmount parameter after, thruDate personalDeductionAmount must be entered" locale="default"
+                                  localized="Khi có kỳ sau của Giảm trừ của bản thân thì phải nhập ngày kết thúc"/>
+
+<!--Chưa upload 17/01/2024-->
+<!--UserGroupType-->
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="UgtGsourcesUsers" locale="vi_VN" localized="Nhóm Quản Trị"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="UgtGsourcesUserSales" locale="vi_VN" localized="Nhóm Bán Hàng"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="UgtGsourcesUserLogistic" locale="vi_VN" localized="Nhóm Kho Vận"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="UgtGsourcesUserPurchasing" locale="vi_VN" localized="Nhóm Thu Mua"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="UgtGsourcesUserSpeedCSV" locale="vi_VN" localized="Nhóm Speed CSV"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="UgtGsourcesUserEcommerce" locale="vi_VN" localized="Nhóm Thương Mại Điện Tử"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="UgtGsourcesUserSalesCollaborator" locale="vi_VN" localized="Nhóm Cộng Tác Viên Bán Hàng"/>
+<!--RoleGroupParty-->
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RgpAccountContact" locale="vi_VN" localized="Vai trò liên hệ khách hàng"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RgpDirect" locale="vi_VN" localized="Vai Trò Trực Tiếp"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RgpAgreement" locale="vi_VN" localized="Vai Trò Thỏa Thuận"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RgpCalendar" locale="vi_VN" localized="Vai trò trong lịch công việc"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RgpRequest" locale="vi_VN" localized="Vai Trò Yêu Cầu"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RgpShipment" locale="vi_VN" localized="Vai Trò Lô Hàng"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RgpProject" locale="vi_VN" localized="Vai Trò Dự Án"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RgpTask" locale="vi_VN" localized="Vai Trò Nhiệm Vụ"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RgpProjectClient" locale="vi_VN" localized="Vai Trò Khách Hàng Dự Án"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RgpProjectVendor" locale="vi_VN" localized="Vai Trò Nhà Cung Cấp Dự Án"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RgpSales" locale="vi_VN" localized="Vai Trò Bán Hàng"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RgpPurchase" locale="vi_VN" localized="Vai Trò Thu Mua"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RgpLogistic" locale="vi_VN" localized="Vai Trò Kho Vận"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RgpOrder" locale="vi_VN" localized="Vai Trò Đơn Hàng"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RgpOrganization" locale="vi_VN" localized="Vai Trò Tổ Chức"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RgpAccounting" locale="vi_VN" localized="Vai Trò Kế Toán"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RgpPicklist" locale="vi_VN" localized="Vai Trò Danh Sách Chọn"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RgpOrgDepartment" locale="vi_VN" localized="Vai Trò Phòng Tổ Chức"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="RgpPerson" locale="vi_VN" localized="Vai Trò Con Người"/>
+
+<!--Chưa upload 18/01/2024-->
+<!--RoleType-->
+        <!-- Role to use when a role is not really applicable for the party association with a record. -->
+    <mantle.party.RoleType description="Không Áp Dụng" roleTypeId="_NA_"/>
+
+    <!-- General Roles -->
+    <mantle.party.RoleType description="Đại Lý" roleTypeId="Agent"/>
+    <mantle.party.RoleType description="Tiếp Thị Liên Kết" roleTypeId="Affiliate"/>
+    <mantle.party.RoleType description="Chủ Tài Sản" roleTypeId="AssetOwner"/>
+    <mantle.party.RoleType description="Người Sai Luật" roleTypeId="BadActor"/>
+    <mantle.party.RoleType description="Người Vận Chuyển" roleTypeId="Carrier"/>
+    <mantle.party.RoleType description="Đối Thủ" roleTypeId="Competitor"/>
+    <mantle.party.RoleType description="Người Tiêu Dùng" roleTypeId="Consumer"/>
+    <mantle.party.RoleType description="Nhà Thầu" roleTypeId="Contractor"/>
+    <mantle.party.RoleType description="Nhà Phân Phối" roleTypeId="Distributor"/>
+    <mantle.party.RoleType description="Bên Nhận Tiền Trích Giữ" roleTypeId="GarnishmentPayee"/>
+    <mantle.party.RoleType description="Nhà Cung Cấp Internet" roleTypeId="InternetSp"/>
+    <mantle.party.RoleType description="Nhà Cung Cấp Máy Chủ" roleTypeId="HostingProvider"/>
+    <mantle.party.RoleType description="Nhà Sản Xuất" roleTypeId="Manufacturer"/>
+    <mantle.party.RoleType description="Chủ Sở Hữu"  roleTypeId="Owner"/>
+    <mantle.party.RoleType description="Đối Tác" roleTypeId="Partner"/>
+    <mantle.party.RoleType description="Người Nhận Thanh Toán Khác Trong Lương" roleTypeId="PayrollOtherPayee"/>
+    <mantle.party.RoleType description="Khách Hàng Tiềm Năng" roleTypeId="Prospect"/>
+    <mantle.party.RoleType description="Người Giới Thiệu" roleTypeId="Referrer"/>
+   <mantle.party.RoleType description="Nhân Viên Bán Hàng" roleTypeId="Account"/>
+    <mantle.party.RoleType description="Trưởng Kế Toán Bán Hàng" roleTypeId="AccountLead"/>
+    <mantle.party.RoleType description="Cổ Đông" roleTypeId="Shareholder"/>
+    <mantle.party.RoleType description="Người Đăng Ký" roleTypeId="Subscriber"/>
+    <mantle.party.RoleType description="Người Cung Ứng" roleTypeId="Supplier"/>
+    <mantle.party.RoleType description="Khách Thăm" roleTypeId="Visitor"/>
+    <mantle.party.RoleType description="Quản Trị Viên Website" roleTypeId="WebMaster"/>
+
+    <!-- Person Roles -->
+    <mantle.party.RoleType description="Kế Toán Viên" roleTypeId="Accountant"/>
+    <mantle.party.RoleType description="Quản Trị Viên" roleTypeId="Administrator"/>
+    <mantle.party.RoleType description="Người Được Phân Công" roleTypeId="Assignee"/>
+    <mantle.party.RoleType description="Người Mua" roleTypeId="Buyer"/>
+    <mantle.party.RoleType description="Thu Ngân" roleTypeId="Cashier"/>
+    <mantle.party.RoleType description="Đại Diện Thanh Toán Cho Khách Hàng" roleTypeId="ClientBilling"/>
+    <mantle.party.RoleType description="Quản Lý Khách Hàng" roleTypeId="ClientManager"/>
+    <mantle.party.RoleType description="Quản Trị Thư Điện Tử" roleTypeId="EmailAdmin"/>
+    <mantle.party.RoleType description="Nhân viên" roleTypeId="Employee"/>
+    <mantle.party.RoleType description="Lãnh Đạo Cấp Cao" roleTypeId="Executive"/>
+    <mantle.party.RoleType description="Gia Quyến" roleTypeId="FamilyMember"/>
+    <mantle.party.RoleType description="Quản Trị Nhân Sự" roleTypeId="HumanResourcesManager"/>
+    <mantle.party.RoleType description="Quản Lý Kho Hàng" roleTypeId="InventoryManager"/>
+    <mantle.party.RoleType description="Quản Lý" roleTypeId="Manager"/>
+    <mantle.party.RoleType description="Người Điều Hành" roleTypeId="Operator"/>
+    <mantle.party.RoleType description="Nhân Viên Tiếp Nhận Đơn Hàng" roleTypeId="OrderClerk"/>
+    <mantle.party.RoleType description="Nhân Viên Gói Hàng" roleTypeId="Packer"/>
+    <mantle.party.RoleType description="Quản Lý Lương" roleTypeId="Payroll"/>
+    <mantle.party.RoleType description="Nhân Viên Chọn Hàng" roleTypeId="Picker"/>
+    <mantle.party.RoleType description="Quản Lý Sản Xuất" roleTypeId="ProductionManager"/>
+    <mantle.party.RoleType description="Công Nhân Sản Xuất" roleTypeId="ProductionWorker"/>
+    <mantle.party.RoleType description="Người Nhận Hàng" roleTypeId="Receiver"/>
+    <mantle.party.RoleType description="Người Báo Cáo" roleTypeId="Reporter"/>
+    <mantle.party.RoleType description="Liên Hệ Bán Hàng" roleTypeId="Contact"/>
+    <mantle.party.RoleType description="Đại Diện Bán Hàng" roleTypeId="SalesRepresentative"/>
+    <mantle.party.RoleType description="Nhân Viên Giao Nhận" roleTypeId="ShipmentClerk"/>
+    <mantle.party.RoleType description="Nhà Tài Trợ" roleTypeId="Sponsor"/>
+    <mantle.party.RoleType description="Bạn Đời" roleTypeId="Spouse"/>
+    <mantle.party.RoleType description="Nhân Viên Quầy Hàng" roleTypeId="Stocker"/>
+    <mantle.party.RoleType description="Đại Diện Nhà Cung Cấp" roleTypeId="SupplierAgent"/>
+    <mantle.party.RoleType description="Liên Hệ Kỹ Thuật" roleTypeId="TechContact"/>
+    <mantle.party.RoleType description="Người Giám Sát" roleTypeId="Watcher"/>
+    <mantle.party.RoleType description="Công Nhân" roleTypeId="Worker"/>
+
+    <mantle.party.RoleType description="Phân Tích Nghiệp Vụ" roleTypeId="BusinessAnalyst"/>
+    <mantle.party.RoleType description="Người Nhận Nhiệm Vụ Mặc Định" roleTypeId="DefaultAssignee"/>
+    <mantle.party.RoleType description="Chuyên Gia" roleTypeId="ExpertUser"/>
+    <mantle.party.RoleType description="Lập Trình Viên" roleTypeId="Programmer"/>
+    <mantle.party.RoleType description="Trưởng Nhóm Lập Trình Viên" roleTypeId="ProgrammerLead"/>
+    <mantle.party.RoleType description="Quản Lý Dự Án" roleTypeId="ProjectManager"/>
+    <mantle.party.RoleType description="Chuyên Viên Kiểm Định Chất Lượng" roleTypeId="QualityAnalyst"/>
+    <mantle.party.RoleType description="Quản Lý Chất Lượng" roleTypeId="QualityLead"/>
+    <mantle.party.RoleType description="Quản Trị Hệ Thống" roleTypeId="SysAdmin"/>
+    <mantle.party.RoleType description="Kiến Trúc Sư Hệ Thống" roleTypeId="SysArchitect"/>
+    <mantle.party.RoleType description="Thiết Kế Giao Diện Người Dùng" roleTypeId="UiDesigner"/>
+
+    <!-- Organization Roles -->
+    <mantle.party.RoleType description="Hiệp Hội" roleTypeId="OrgAssociation"/>
+    <mantle.party.RoleType description="Tổ Chức" roleTypeId="OrgCorporation"/>
+    <mantle.party.RoleType description="Phòng Ban" roleTypeId="OrgDepartment"/>
+    <mantle.party.RoleType description="Bộ Phận" roleTypeId="OrgDivision"/>
+    <mantle.party.RoleType description="Nhà Tuyển Dụng" roleTypeId="OrgEmployer"/>
+    <mantle.party.RoleType description="Gia Đình" roleTypeId="OrgFamily"/>
+    <mantle.party.RoleType description="Chính Phủ" roleTypeId="OrgGovernment"/>
+    <mantle.party.RoleType description="Đơn Vị Hành Chính Công" roleTypeId="OrgGovernmentAgency"/>
+    <mantle.party.RoleType description="Hộ Gia Đình" roleTypeId="OrgHousehold"/>
+    <mantle.party.RoleType description="Tổ Chức Nội Bộ" roleTypeId="OrgInternal"/>
+    <mantle.party.RoleType description="Nhóm" roleTypeId="OrgTeam"/>
+    <mantle.party.RoleType description="Đơn Vị" roleTypeId="OrgUnit"/>
+    <mantle.party.RoleType description="Mẹ Cha" roleTypeId="OrgParent"/>
+    <mantle.party.RoleType description="Cơ Quan Điều Hành" roleTypeId="OrgRegulatoryAgency"/>
+    <mantle.party.RoleType description="Công Ty Con" roleTypeId="OrgSubsidiary"/>
+    <mantle.party.RoleType description="Cơ Quan Thuế" roleTypeId="OrgTaxAuthority"/>
+    <mantle.party.RoleType description="Liên Đoàn" roleTypeId="OrgUnion"/>
+
+    <!-- Calendar Roles -->
+    <mantle.party.RoleType description="Người Tham Dự" roleTypeId="Attendee"/>
+    <mantle.party.RoleType description="Đại Biểu" roleTypeId="Delegate"/>
+    <mantle.party.RoleType description="Người Chủ Trì" roleTypeId="Host"/>
+    <mantle.party.RoleType description="Người Tổ Chức" roleTypeId="Organizer"/>
+
+    <!-- Customer and Vendor Roles -->
+    <!-- NOTE: these don't use RoleGroupMember because they are an actual hierarchy of roles (Customer and Vendor are valid roles with sub-roles) -->
+    <mantle.party.RoleType description="Khách Hàng" roleTypeId="Customer"/>
+    <mantle.party.RoleType description="Khách hàng - Thanh toán cho" parentTypeId="Customer" roleTypeId="CustomerBillTo"/>
+    <mantle.party.RoleType description="Khách hàng - Người dùng cuối" parentTypeId="Customer" roleTypeId="CustomerEndUser"/>
+    <mantle.party.RoleType description="Khách hàng - Đặt hàng" parentTypeId="Customer" roleTypeId="CustomerPlacing"/>
+    <mantle.party.RoleType description="Khách hàng - Giao hàng" parentTypeId="Customer" roleTypeId="CustomerShipTo"/>
+    <mantle.party.RoleType description="Nhà Cung Cấp" roleTypeId="Vendor"/>
+    <mantle.party.RoleType description="Nhà Cung Cấp - Hóa đơn từ" parentTypeId="Vendor" roleTypeId="VendorBillFrom"/>
+    <mantle.party.RoleType description="Nhà Cung Cấp - Giao từ" parentTypeId="Vendor" roleTypeId="VendorShipFrom"/>
+    <mantle.party.RoleType description="Nhà Cung Cấp - Lấy hàng từ" parentTypeId="Vendor" roleTypeId="VendorPickUpFrom"/>
+
+    <mantle.party.RoleType description="Nhân Viên Giao Hàng" roleTypeId="Shipper"/>
+    <mantle.party.RoleType description="Nhập Kho Hàng Hóa" roleTypeId="StockingInput"/>
+    <mantle.party.RoleType description="Kiểm Kê Hàng Tồn" roleTypeId="StockingCount"/>
+    <mantle.party.RoleType description="Check Tồn" roleTypeId="StockingCheck"/>
+    <mantle.party.RoleType description="Quét Hàng Tồn" roleTypeId="StockingScan"/>
+    <mantle.party.RoleType description="Người Giám Sát Bán Hàng" roleTypeId="Supervisor"/>
+    <mantle.party.RoleType description="Đại Diện Cơ Sở Kho Hàng" roleTypeId="FacilityRepresentative"/>
+    <mantle.party.RoleType description="Cộng Tác Viên Bán Hàng" roleTypeId="SalesCollaborator"/>
+<moqui.basic.LocalizedMessage locale="default" original="Cannot recalculate because an invoice has already been created." localized="Không thể tính lại vì đã có hóa đơn." />
+    <moqui.basic.LocalizedMessage locale="default" original="Invoice For EmploymentPayHistory already created or EmploymentPayHistory empty." localized="Hóa đơn của Lịch sử Thanh toán Nhân viên đã tạo hoặc trống rỗng" />
+<!--chưa upload 25/01/2024 -->
+<moqui.basic.LocalizedMessage locale="default" original="The timesheet is in Apprroved or Completed" localized="Bảng công đã ở trạng thái Hoàn Thành hoặc Đã Duyệt" />
+<moqui.basic.LocalizedMessage locale="default" original="Timesheet ${timeEntry.timesheetId} not Completed or Approved" localized="Bảng công ${timeEntry.timesheetId} chưa Hoàn Thành hoặc Được Duyệt" />
+
+    <ContactMechPurpose contactMechPurposeId="PostalPrimary" contactMechTypeEnumId="CmtPostalAddress" description="Bưu chính - Chính"/>
+    <ContactMechPurpose contactMechPurposeId="PostalShippingDest" contactMechTypeEnumId="CmtPostalAddress" description="Bưu chính - Địa chỉ chuyển đến"/>
+    <ContactMechPurpose contactMechPurposeId="PostalShippingOrigin" contactMechTypeEnumId="CmtPostalAddress" description="Bưu chính - Địa chỉ gốc"/>
+    <ContactMechPurpose contactMechPurposeId="PostalBilling" contactMechTypeEnumId="CmtPostalAddress" description="Bưu chính - Thanh toán(phải trả)"/>
+    <ContactMechPurpose contactMechPurposeId="PostalPayment" contactMechTypeEnumId="CmtPostalAddress" description="Bưu chính - Thanh toán(phải thu)"/>
+    <ContactMechPurpose contactMechPurposeId="PostalTax" contactMechTypeEnumId="CmtPostalAddress" description="Bưu chính - Thuế"/>
+    <ContactMechPurpose contactMechPurposeId="PostalGeneral" contactMechTypeEnumId="CmtPostalAddress" description="Bưu Chính - Tổng Hợp"/>
+    <ContactMechPurpose contactMechPurposeId="PostalPurchReturn" contactMechTypeEnumId="CmtPostalAddress" description="Bưu chính - Trả lại hàng mua"/>
+    <ContactMechPurpose contactMechPurposeId="PostalPrevious" contactMechTypeEnumId="CmtPostalAddress" description="Bưu chính - Trước đó"/>
+    <ContactMechPurpose contactMechPurposeId="PostalHome" contactMechTypeEnumId="CmtPostalAddress" description="Bưu chính - Nhà"/>
+    <ContactMechPurpose contactMechPurposeId="PostalWork" contactMechTypeEnumId="CmtPostalAddress" description="Bưu chính - Nơi làm việc"/>
+    <ContactMechPurpose contactMechPurposeId="PostalRetailStore" contactMechTypeEnumId="CmtPostalAddress" description="Bưu chính - Cửa hàng bán lẻ"/>
+    <ContactMechPurpose contactMechPurposeId="PhonePrimary" contactMechTypeEnumId="CmtTelecomNumber" description="Điện thoại - Chính"/>
+    <ContactMechPurpose contactMechPurposeId="PhoneShippingDest" contactMechTypeEnumId="CmtTelecomNumber" description="Điện thoại - Địa chỉ chuyển đến"/>
+    <ContactMechPurpose contactMechPurposeId="PhoneShippingOrigin" contactMechTypeEnumId="CmtTelecomNumber" description="Điện thoại - Địa chỉ gốc"/>
+    <ContactMechPurpose contactMechPurposeId="PhoneShippingFax" contactMechTypeEnumId="CmtTelecomNumber" description="Điện thoại - Vận chuyển Fax"/>
+    <ContactMechPurpose contactMechPurposeId="PhoneBilling" contactMechTypeEnumId="CmtTelecomNumber" description="Điện thoại - Thanh toán (phải trả)"/>
+    <ContactMechPurpose contactMechPurposeId="PhoneBillingFax" contactMechTypeEnumId="CmtTelecomNumber" description="Điện thoại - Fax thanh toán (phải trả)"/>
+    <ContactMechPurpose contactMechPurposeId="PhonePayment" contactMechTypeEnumId="CmtTelecomNumber" description="Điện thoại - Thanh toán (phải thu)"/>
+    <ContactMechPurpose contactMechPurposeId="PhonePaymentFax" contactMechTypeEnumId="CmtTelecomNumber" description="Điện thoại - Fax Thanh toán (phải thu)"/>
+    <ContactMechPurpose contactMechPurposeId="PhoneTax" contactMechTypeEnumId="CmtTelecomNumber" description="Điện thoại - Thuế"/>
+    <ContactMechPurpose contactMechPurposeId="PhoneDid" contactMechTypeEnumId="CmtTelecomNumber" description="Điện thoại - Quay số trực tiếp"/>
+    <ContactMechPurpose contactMechPurposeId="PhoneHome" contactMechTypeEnumId="CmtTelecomNumber" description="Điện thoại - Nhà"/>
+    <ContactMechPurpose contactMechPurposeId="PhoneWork" contactMechTypeEnumId="CmtTelecomNumber" description="Điện thoại - Nơi làm việc"/>
+    <ContactMechPurpose contactMechPurposeId="PhoneFax" contactMechTypeEnumId="CmtTelecomNumber" description="Điện thoại - Fax"/>
+    <ContactMechPurpose contactMechPurposeId="PhoneMobile" contactMechTypeEnumId="CmtTelecomNumber" description="Điện thoại - Di động"/>
+    <ContactMechPurpose contactMechPurposeId="PhoneAssistant" contactMechTypeEnumId="CmtTelecomNumber" description="Điện thoại - Trợ lý"/>
+    <ContactMechPurpose contactMechPurposeId="PhoneQuick" contactMechTypeEnumId="CmtTelecomNumber" description="Điện thoại - Gọi nhanh"/>
+    <ContactMechPurpose contactMechPurposeId="PhoneRetailStore" contactMechTypeEnumId="CmtTelecomNumber" description="Điện Thoại - Cửa Hàng Bán Lẻ"/>
+    <ContactMechPurpose contactMechPurposeId="EmailPrimary" contactMechTypeEnumId="CmtEmailAddress" description="Email - Địa chỉ chính"/>
+    <ContactMechPurpose contactMechPurposeId="EmailShippingDest" contactMechTypeEnumId="CmtEmailAddress" description="Email - Địa chỉ chuyển đến"/>
+    <ContactMechPurpose contactMechPurposeId="EmailShippingOrigin" contactMechTypeEnumId="CmtEmailAddress" description="Email - Địa chỉ gốc"/>
+    <ContactMechPurpose contactMechPurposeId="EmailBilling" contactMechTypeEnumId="CmtEmailAddress" description="Email - Thanh toán (phải trả)"/>
+    <ContactMechPurpose contactMechPurposeId="EmailPayment" contactMechTypeEnumId="CmtEmailAddress" description="Email - Thanh toán (phải thu)"/>
+    <ContactMechPurpose contactMechPurposeId="EmailOther" contactMechTypeEnumId="CmtEmailAddress" description="Email - Khác"/>
+    <ContactMechPurpose contactMechPurposeId="EmailSupport" contactMechTypeEnumId="CmtEmailAddress" description="Email - Hỗ trợ"/>
+    <ContactMechPurpose contactMechPurposeId="EmailOrder" contactMechTypeEnumId="CmtEmailAddress" description="Email - Thông báo đơn hàng"/>
+    <ContactMechPurpose contactMechPurposeId="EmailMarketing" contactMechTypeEnumId="CmtEmailAddress" description="Email - Quảng cáo"/>
+    <ContactMechPurpose contactMechPurposeId="EmailRetailStore" contactMechTypeEnumId="CmtEmailAddress" description="Email - Cửa hàng bán lẻ"/>
+    <ContactMechPurpose contactMechPurposeId="WebUrlPrimary" contactMechTypeEnumId="CmtWebAddress" description="URL trang web - Chính"/>
+    <ContactMechPurpose contactMechPurposeId="WebUrlPayment" contactMechTypeEnumId="CmtWebAddress" description="URL trang web - Thanh toán (phải trả)"/>
+    <ContactMechPurpose contactMechPurposeId="WebUrlFacebook" contactMechTypeEnumId="CmtWebAddress" description="URL trang web - Facebook"/>
+    <ContactMechPurpose contactMechPurposeId="WebUrlICal" contactMechTypeEnumId="CmtWebAddress" description="URL trang web - iCal"/>
+    <ContactMechPurpose contactMechPurposeId="WebUrlLinkedIn" contactMechTypeEnumId="CmtWebAddress" description="URL trang web - LinkedIn"/>
+    <ContactMechPurpose contactMechPurposeId="WebUrlTwitter" contactMechTypeEnumId="CmtWebAddress" description="URL trang web - Twitter"/>
+    <ContactMechPurpose contactMechPurposeId="WebRetailStore" contactMechTypeEnumId="CmtWebAddress" description="URL trang web - Cửa hàng bán lẻ"/>
+    <ContactMechPurpose contactMechPurposeId="Other" contactMechTypeEnumId="" description="Khác"/>
+    <ContactMechPurpose contactMechPurposeId="IpAddressClient" contactMechTypeEnumId="CmtIpAddress" description="Địa chỉ IP - Máy khách"/>
+
+<!--Chưa up 20/02 -->
+<moqui.basic.Enumeration description="Lương tăng ca" enumId="PAYROL_OVERTIMESALARY_SALE" parentEnumId="PAYROL_SALARY_SALE" enumTypeId="ItemType" />
+<mantle.ledger.config.ItemTypeGlAccount  itemTypeEnumId="PAYROL_OVERTIMESALARY_SALE" glAccountId="6411" direction="E" organizationPartyId="TT200Settings"/>
+
+<moqui.basic.Enumeration enumId="EngPayrollAdjSalaryEmpl" parentEnumId="" enumTypeId="EnumGroup" description="Payroll Adj Salary Empl">
+	<groupMembers enumId="PAYROL_OVERTIMESALARY_SALE" sequenceNum="10" memberInfo="fixed"/>
+</moqui.basic.Enumeration>
+
+<moqui.basic.Enumeration enumId="EngPayrollAdjSalaryIncomeEmpl" parentEnumId="" enumTypeId="EnumGroup" description="Payroll Adj Salary Income Empl">
+	<groupMembers enumId="PAYROL_OVERTIMESALARY_SALE" sequenceNum="8" memberInfo="fixed"/>
+</moqui.basic.Enumeration>
+
+<moqui.basic.Enumeration enumId="EngPayrollAdjSalaryIncomeEmplAll" parentEnumId="" enumTypeId="EnumGroup" description="Payroll Adj Salary Income Empl All">
+	<groupMembers enumId="PAYROL_OVERTIMESALARY_SALE" sequenceNum="9" memberInfo="fixed"/>
+</moqui.basic.Enumeration>
+
+<moqui.basic.Enumeration enumId="EngPayrollAdjTaxable" parentEnumId="" enumTypeId="EnumGroup" description="Payroll Adj Taxable">
+	<groupMembers enumId="PAYROL_OVERTIMESALARY_SALE" sequenceNum="7"/>
+</moqui.basic.Enumeration>
+
+<!--Chưa up 28/02-->
+<moqui.basic.LocalizedMessage original="This record can not update or create"
+                                  locale="default" localized="Không thể cập nhật"/>
+
+<!--Chưa up 19/03-->
+<userGroups userGroupId="SALES_STORE_MANAGER" description="Sales Store Manager" groupTypeEnumId="UgtGsourcesUserSales"/>
+<userGroupPermissions userGroupId="SALES_STORE_MANAGER" userPermissionId="ORDER_APPROVE" fromDate="0"/>
+
+    <moqui.security.EntityFilterSet entityFilterSetId="MONTE_PRODUCT_STORE_PSM" description="Product Store Manager Filters">
+<!--        <filters entityFilterId="MONTE_PRODUCT_STORE_STORE" entityName="mantle.product.store.ProductStore" joinOr="Y" filterMap="[productStoreId:filterProductStoreIds]"/>-->
+        <filters entityFilterId="MONTE_PRODUCT_STORE_ORDER_HEADER_PSM" entityName="mantle.order.OrderHeader" joinOr="Y" filterMap="[productStoreId:filterProductStoreIds]"/>
+<!--    <filters entityFilterId="MONTE_PRODUCT_STORE_ORDER_PART_VIEW_1" entityName="com.monte.sales.OrderPartFindView" joinOr="N" filterMap="[productStoreId:filterProductStoreIds,salesmanPartyId:filterSalesmanPartyId]"/>-->
+        <filters entityFilterId="MONTE_PRODUCT_STORE_RETURN_HEADER_PSM" entityName="mantle.order.return.ReturnHeader" joinOr="N" filterMap="[enteredByPartyId:filterEnteredByPartyId]"/>
+        <filters entityFilterId="MONTE_PRODUCT_STORE_PROMOTION_PSM" entityName="mantle.product.store.ProductStorePromotion" joinOr="Y" filterMap="[productStoreId:filterProductStoreIds]"/>
+        <filters entityFilterId="MONTE_PRODUCT_STORE_PARTY_PSM" entityName="mantle.product.store.ProductStoreParty" joinOr="Y" filterMap="[productStoreId:filterProductStoreIds]"/>
+        <filters entityFilterId="MONTE_PRODUCT_STORE_COMMISSION_PSM" entityName="gsources.sales.SalesCommission" joinOr="Y" filterMap="[productStoreId:filterProductStoreIds]"/>
+        <filters entityFilterId="MONTE_PRODUCT_STORE_GROUP_MEMBER_PSM" entityName="mantle.product.store.ProductStoreGroupMember" joinOr="Y" filterMap="[productStoreId:filterProductStoreIds]"/>
+        <filters entityFilterId="MONTE_PRODUCT_STORE_TEMPORARY_PSM" entityName="com.monte.sales.TemporaryParty" joinOr="Y" filterMap="[productStoreId:filterProductStoreIds]"/>
+
+        <!-- Declare future use -->
+        <filters entityFilterId="MONTE_PRODUCT_STORE_PRODUCT_PSM" entityName="mantle.product.store.ProductStoreProduct" joinOr="Y" filterMap="[productStoreId:filterProductStoreIds]"/>
+        <filters entityFilterId="MONTE_PRODUCT_STORE_CATEGORY_PSM" entityName="mantle.product.store.ProductStoreCategory" joinOr="Y" filterMap="[productStoreId:filterProductStoreIds]"/>
+    </moqui.security.EntityFilterSet>
+
+    <!--  SALES_STORE_MANAGER -->
+    <userGroups userGroupId="SALES_STORE_MANAGER">
+        <authz artifactAuthzId="SALES_STORE_MANAGER_SALES_API" artifactGroupId="GSOURCES_SALES_API" authzTypeEnumId="AUTHZT_ALLOW" authzActionEnumId="AUTHZA_ALL"
+               authzServiceName="gsources.sales.ConfigServices.setup#StoreManagerInfo">
+            <filters entityFilterSetId="MONTE_PRODUCT_STORE_PSM"/>
+        </authz>
+<!--        <authz artifactAuthzId="SALES_STORE_MANAGER_SALESNET_API" artifactGroupId="GSOURCES_SALESNET_API" authzTypeEnumId="AUTHZT_ALLOW" authzActionEnumId="AUTHZA_ALL"/>-->
+<!--        <authz artifactAuthzId="SALES_STORE_MANAGER_POS_API" artifactGroupId="GSOURCES_POS_API" authzTypeEnumId="AUTHZT_ALLOW" authzActionEnumId="AUTHZA_ALL"/>-->
+    </userGroups>
+
+•	Upload ngày 25/03/2024. 
+•	Phân quyền vị trí nhân viên 
+<moqui.security.ArtifactGroup artifactGroupId="GSOURCES_HR_EMPL_POSITION_API" description="Get API list of employee positions"/>
+<moqui.security.ArtifactGroupMember artifactGroupId="GSOURCES_HR_EMPL_POSITION_API" artifactTypeEnumId="AT_REST_PATH"
+                                    inheritAuthz="Y" artifactName="/hr/emplPosition"/>
+    <userGroups userGroupId="SALES_STORE_MANAGER">
+        <authz artifactAuthzId="SALES_STORE_MANAGER_SALES_API" artifactGroupId="GSOURCES_SALES_API" authzTypeEnumId="AUTHZT_ALLOW" authzActionEnumId="AUTHZA_ALL"
+               authzServiceName="gsources.sales.ConfigServices.setup#StoreManagerInfo">
+            <filters entityFilterSetId="MONTE_PRODUCT_STORE_PSM"/>
+        </authz>
+        <authz artifactAuthzId="SALES_STORE_MANAGER_FACILITY_API" artifactGroupId="GSOURCES_LOG_FACILITY_API" authzTypeEnumId="AUTHZT_ALLOW" authzActionEnumId="AUTHZA_VIEW"/>
+        <authz artifactAuthzId="SALES_STORE_MANAGER_EMPL_POSITION_API" artifactGroupId="GSOURCES_HR_EMPL_POSITION_API" authzTypeEnumId="AUTHZT_ALLOW" authzActionEnumId="AUTHZA_VIEW"/>
+<!--        <authz artifactAuthzId="SALES_STORE_MANAGER_SALESNET_API" artifactGroupId="GSOURCES_SALESNET_API" authzTypeEnumId="AUTHZT_ALLOW" authzActionEnumId="AUTHZA_ALL"/>-->
+<!--        <authz artifactAuthzId="SALES_STORE_MANAGER_POS_API" artifactGroupId="GSOURCES_POS_API" authzTypeEnumId="AUTHZT_ALLOW" authzActionEnumId="AUTHZA_ALL"/>-->
+    </userGroups>
+
+<!-- Chưa upload ngày 02/04/2024 -->
+    <moqui.security.ArtifactGroupMember artifactGroupId="GSOURCES_LOG_API" artifactTypeEnumId="AT_REST_PATH"
+                                        inheritAuthz="Y" artifactName="/mantle/parties/contactMechs/purposes"/>
+<!-- Chưa upload ngày 04/04/2024 -->
+    <moqui.security.EntityFilterSet entityFilterSetId="MONTE_FACILITY" description="Facility Filters" allowMissingAlias="Y">
+        <filters entityFilterId="MONTE_FACILITY_1" entityName="mantle.order.OrderPart" joinOr="Y" filterMap="[facilityId:filterFacilityIds]"/>
+        <filters entityFilterId="MONTE_FACILITY_2" entityName="mantle.order.return.ReturnHeader" joinOr="Y" filterMap="[facilityId:filterFacilityIds]"/>
+        <filters entityFilterId="MONTE_FACILITY_3" entityName="mantle.shipment.ShipmentRouteSegment" joinOr="Y" filterMap="[originFacilityId:filterFacilityIds, destinationFacilityId:filterFacilityIds]"/>
+        <filters entityFilterId="MONTE_FACILITY_4" entityName="mantle.product.asset.Asset" joinOr="Y" filterMap="[facilityId:filterFacilityIds]"/>
+<!--        <filters entityFilterId="MONTE_FACILITY_5" entityName="mantle.facility.Facility" joinOr="Y" filterMap="[facilityId:filterFacilityIds]"/>-->
+        <filters entityFilterId="MONTE_FACILITY_6" entityName="gsources.logistic.StockEvent" joinOr="Y" filterMap="[facilityId:filterFacilityIds]"/>
+        <filters entityFilterId="MONTE_FACILITY_7" entityName="gsources.logistic.DeliveryTrip" joinOr="Y" filterMap="[originFacilityId:filterFacilityIds]"/>
+        <filters entityFilterId="MONTE_FACILITY_8" entityName="gsources.logistic.AssetTransform" joinOr="Y" filterMap="[facilityId:filterFacilityIds]"/>
+<!--        <filters entityFilterId="MONTE_FACILITY_9" entityName="mantle.facility.ProductFacility" joinOr="Y" filterMap="[facilityId:filterFacilityIds]"/>-->
+        <filters entityFilterId="MONTE_FACILITY_10" entityName="mantle.facility.FacilityContactMech" joinOr="Y" filterMap="[facilityId:filterFacilityIds]"/>
+    </moqui.security.EntityFilterSet>
+
+
+    <moqui.security.EntityFilterSet entityFilterSetId="MONTE_FACILITY_RELATIVE" description="Facility Filters" allowMissingAlias="Y">
+                <filters entityFilterId="MONTE_FACILITY_RELATIVE_1" entityName="mantle.facility.Facility" joinOr="Y" filterMap="[facilityId:filterFacilityIds]"/>
+    </moqui.security.EntityFilterSet>
+
+    <userGroups userGroupId="LOG_MNG">
+        <authz artifactAuthzId="LOG_MNG_LOG_API" artifactGroupId="GSOURCES_LOG_API" authzTypeEnumId="AUTHZT_ALLOW" authzActionEnumId="AUTHZA_ALL" authzServiceName="gsources.logistic.LogisticServices.setup#UserFacilityInfo">
+            <filters entityFilterSetId="MONTE_FACILITY"/>
+            <filters entityFilterSetId="MONTE_FACILITY_RELATIVE"/>
+        </authz>
+    </userGroups>
+
+
+
+
