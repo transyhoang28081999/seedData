@@ -513,6 +513,14 @@
         </authz>
     </userGroups>
 
+<!--Chưa upload ngày 05/04/2024-->
+<!--create#ProductAndPriceAdvance-->
+    <moqui.basic.LocalizedMessage locale="vi_VN" original="Not config taxRate yet" localized="Chưa cấu hình thuế" />
+<moqui.basic.LocalizedMessage locale="vi_VN" original="Unable to issue ${ec.l10n.format(quantityRemaining, '0.00')} out of quantity specified (${ec.l10n.format(quantity, '0.00')}) for Shipment Item Source ${shipmentItemSourceId}, not packing"
+                                  localized="Không thể xuất ${ec.l10n.format(quantityRemaining, '0.00')} vì nó đã vượt quá số lượng chỉ định (${ec.l10n.format(quantity, '0.00')}) cho Shipment Item Source ${shipmentItemSourceId}, không đóng gói" />
+
+<!--Chưa upload ngày 09/04/2024-->
+<moqui.basic.LocalizedMessage locale="vi_VN" original="StoreNotSetRetailDiscountMaximumValue" localized="Chưa cấu hình giảm giá tối đa (bán sỉ) cho kênh bán hàng"/>
 
 
 
