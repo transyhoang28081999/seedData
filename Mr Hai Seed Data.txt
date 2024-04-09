@@ -1,0 +1,4 @@
+<!--Upload 15/03-->
+<GeoAssoc geoId="VNM-HCM-11" toGeoId="VNM-HCM-11-16" geoAssocTypeEnumId="GAT_REGIONS" />
+<GeoAssoc geoId="VNM-HCM-BT2" toGeoId="VNM-HCM-BT2-19" geoAssocTypeEnumId="GAT_REGIONS" />
+
