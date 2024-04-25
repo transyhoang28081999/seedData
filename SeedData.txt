@@ -521,6 +521,9 @@
 
 <!--Chưa upload ngày 09/04/2024-->
 <moqui.basic.LocalizedMessage locale="vi_VN" original="StoreNotSetRetailDiscountMaximumValue" localized="Chưa cấu hình giảm giá tối đa (bán sỉ) cho kênh bán hàng"/>
-
+<!--Chưa upload ngày 15/04/2024-->
+<moqui.basic.LocalizedMessage original="PartyCodeAlreadyExist::${party.pseudoId}::" locale="vi_VN" localized="Mã nhân viên đã được sử dụng [${party.pseudoId}]"/>
+    <moqui.basic.Enumeration description="Thành phần sản phẩm" enumId="PRODUCT_COMPONENT" parentEnumId="" enumTypeId="ItemType" />
+    <moqui.basic.Enumeration description="Thành phần vỏ" enumId="PRODUCT_CRUST" parentEnumId="PRODUCT_COMPONENT" enumTypeId="ItemType" />
 
 
