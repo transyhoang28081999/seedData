@@ -1,0 +1,50 @@
+<!-- Ngày 25/03 -->
+<moqui.security.ArtifactGroup artifactGroupId="GSOURCES_HR_EMPL_POSITION_API" description="Get API list of employee positions"/>
+<moqui.security.ArtifactGroupMember artifactGroupId="GSOURCES_HR_EMPL_POSITION_API" artifactTypeEnumId="AT_REST_PATH"
+                                        inheritAuthz="Y" artifactName="/hr/emplPosition"/>
+
+        <authz artifactAuthzId="SALES_STORE_MANAGER_FACILITY_API" artifactGroupId="GSOURCES_LOG_FACILITY_API" authzTypeEnumId="AUTHZT_ALLOW" authzActionEnumId="AUTHZA_VIEW"/>
+        <authz artifactAuthzId="SALES_STORE_MANAGER_EMPL_POSITION_API" artifactGroupId="GSOURCES_HR_EMPL_POSITION_API" authzTypeEnumId="AUTHZT_ALLOW" authzActionEnumId="AUTHZA_VIEW"/>
+
+<!-- Ngày 04/04 -->
+<moqui.security.EntityFilterSet entityFilterSetId="MONTE_FACILITY" description="Facility Filters" allowMissingAlias="Y">
+<!--        <filters entityFilterId="MONTE_FACILITY_9" entityName="mantle.facility.ProductFacility" joinOr="Y" filterMap="[facilityId:filterFacilityIds]"/>-->
+        <filters entityFilterId="MONTE_FACILITY_10" entityName="mantle.facility.FacilityContactMech" joinOr="Y" filterMap="[facilityId:filterFacilityIds]"/>
+
+<moqui.security.EntityFilterSet entityFilterSetId="MONTE_FACILITY_RELATIVE" description="Facility Filters" allowMissingAlias="Y">
+
+    <moqui.security.ArtifactGroupMember artifactGroupId="GSOURCES_LOG_API" artifactTypeEnumId="AT_REST_PATH"
+                                        inheritAuthz="Y" artifactName="/mantle/parties/contactMechs/purposes"/>
+
+    <userGroups userGroupId="LOG_MNG">
+        <authz artifactAuthzId="LOG_MNG_LOG_API" artifactGroupId="GSOURCES_LOG_API" authzTypeEnumId="AUTHZT_ALLOW" authzActionEnumId="AUTHZA_ALL" authzServiceName="gsources.logistic.LogisticServices.setup#UserFacilityInfo">
+            <filters entityFilterSetId="MONTE_FACILITY"/>
+            <filters entityFilterSetId="MONTE_FACILITY_RELATIVE"/>
+        </authz>
+    </userGroups>
+
+<!-- Ngày 05/04 -->
+    <moqui.basic.LocalizedMessage locale="vi_VN" original="Unable to issue ${ec.l10n.format(quantityRemaining, '0.00')} out of quantity specified (${ec.l10n.format(quantity, '0.00')}) for Shipment Item Source ${shipmentItemSourceId}, not packing"
+                                  localized="Không thể xuất ${ec.l10n.format(quantityRemaining, '0.00')} vì nó đã vượt quá số lượng chỉ định (${ec.l10n.format(quantity, '0.00')}) cho Shipment Item Source ${shipmentItemSourceId}, không đóng gói" />
+
+    <!--Termination Type-->
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="TtResigned" locale="vi_VN" localized="Thôi việc"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="TtFired" locale="vi_VN" localized="Sa thải"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="TtLayoff" locale="vi_VN" localized="Cắt giảm"/>
+    <moqui.basic.LocalizedEntityField entityName="moqui.basic.Enumeration" fieldName="description" pkValue="TtRetired" locale="vi_VN" localized="Nghỉ hưu"/>
+
+<!-- Ngày 09/04 -->
+<moqui.basic.LocalizedMessage locale="vi_VN" original="StoreNotSetRetailDiscountMaximumValue" localized="Chưa cấu hình giảm giá tối đa (bán sỉ) cho kênh bán hàng"/>
+
+<!-- Ngày 15/04 -->
+    <moqui.basic.LocalizedMessage original="PartyCodeAlreadyExist::${party.pseudoId}::" locale="vi_VN" localized="Mã nhân viên đã được sử dụng [${party.pseudoId}]"/>
+<!-- Ngày 19/04 -->
+<moqui.basic.Enumeration description="OceanBank" enumId="PiCreditCardOceanBank" enumTypeId="PaymentInstrument" relatedEnumId="PmtCreditCard"/>
+<mantle.ledger.account.GlAccount glAccountId="1126" accountName="OceanBank" glAccountClassEnumId="CASH_EQUIVALENT" glAccountTypeEnumId="GatCurrentAsset" glResourceTypeEnumId="GlrtMoney" parentGlAccountId="112"/>
+<mantle.ledger.account.GlAccountOrganization glAccountId="1126" organizationPartyId="TT200Settings"/>
+    <mantle.ledger.config.PaymentInstrumentGlAccount glAccountId="1126" organizationPartyId="ORG_COMPANY_CORP" paymentInstrumentEnumId="PiCreditCardOceanBank" isPayable="E"/>
+
+<!-- Ngày 09/05 -->
+    <moqui.basic.LocalizedMessage original="No account found for username ${username}" locale="vi_VN" localized="Không tìm thấy tài khoản với username ${username}"/>
+
+

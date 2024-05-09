@@ -525,5 +525,7 @@
 <moqui.basic.LocalizedMessage original="PartyCodeAlreadyExist::${party.pseudoId}::" locale="vi_VN" localized="Mã nhân viên đã được sử dụng [${party.pseudoId}]"/>
     <moqui.basic.Enumeration description="Thành phần sản phẩm" enumId="PRODUCT_COMPONENT" parentEnumId="" enumTypeId="ItemType" />
     <moqui.basic.Enumeration description="Thành phần vỏ" enumId="PRODUCT_CRUST" parentEnumId="PRODUCT_COMPONENT" enumTypeId="ItemType" />
+<!--Upload 02/05/2024-->
+<moqui.basic.Enumeration description="Product Crust" parentEnumId="PatComponent" enumId="PatCrust" enumTypeId="ProductAssocType"/>
 
 
