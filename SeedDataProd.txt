@@ -3,15 +3,17 @@
 <moqui.security.ArtifactGroupMember artifactGroupId="GSOURCES_HR_EMPL_POSITION_API" artifactTypeEnumId="AT_REST_PATH"
                                         inheritAuthz="Y" artifactName="/hr/emplPosition"/>
 
+     <userGroups userGroupId="SALES_STORE_MANAGER">
         <authz artifactAuthzId="SALES_STORE_MANAGER_FACILITY_API" artifactGroupId="GSOURCES_LOG_FACILITY_API" authzTypeEnumId="AUTHZT_ALLOW" authzActionEnumId="AUTHZA_VIEW"/>
         <authz artifactAuthzId="SALES_STORE_MANAGER_EMPL_POSITION_API" artifactGroupId="GSOURCES_HR_EMPL_POSITION_API" authzTypeEnumId="AUTHZT_ALLOW" authzActionEnumId="AUTHZA_VIEW"/>
+    </userGroups>
 
 <!-- Ngày 04/04 -->
-<moqui.security.EntityFilterSet entityFilterSetId="MONTE_FACILITY" description="Facility Filters" allowMissingAlias="Y">
+<moqui.security.EntityFilterSet entityFilterSetId="MONTE_FACILITY" description="Facility Filters" allowMissingAlias="Y"/>
 <!--        <filters entityFilterId="MONTE_FACILITY_9" entityName="mantle.facility.ProductFacility" joinOr="Y" filterMap="[facilityId:filterFacilityIds]"/>-->
         <filters entityFilterId="MONTE_FACILITY_10" entityName="mantle.facility.FacilityContactMech" joinOr="Y" filterMap="[facilityId:filterFacilityIds]"/>
 
-<moqui.security.EntityFilterSet entityFilterSetId="MONTE_FACILITY_RELATIVE" description="Facility Filters" allowMissingAlias="Y">
+<moqui.security.EntityFilterSet entityFilterSetId="MONTE_FACILITY_RELATIVE" description="Facility Filters" allowMissingAlias="Y"/>
 
     <moqui.security.ArtifactGroupMember artifactGroupId="GSOURCES_LOG_API" artifactTypeEnumId="AT_REST_PATH"
                                         inheritAuthz="Y" artifactName="/mantle/parties/contactMechs/purposes"/>
