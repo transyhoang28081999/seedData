@@ -9,9 +9,10 @@
     </userGroups>
 
 <!-- Ngày 04/04 -->
-<moqui.security.EntityFilterSet entityFilterSetId="MONTE_FACILITY" description="Facility Filters" allowMissingAlias="Y"/>
+<moqui.security.EntityFilterSet entityFilterSetId="MONTE_FACILITY" description="Facility Filters" allowMissingAlias="Y">
 <!--        <filters entityFilterId="MONTE_FACILITY_9" entityName="mantle.facility.ProductFacility" joinOr="Y" filterMap="[facilityId:filterFacilityIds]"/>-->
         <filters entityFilterId="MONTE_FACILITY_10" entityName="mantle.facility.FacilityContactMech" joinOr="Y" filterMap="[facilityId:filterFacilityIds]"/>
+    </moqui.security.EntityFilterSet>
 
 <moqui.security.EntityFilterSet entityFilterSetId="MONTE_FACILITY_RELATIVE" description="Facility Filters" allowMissingAlias="Y"/>
 
