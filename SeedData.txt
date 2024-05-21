@@ -528,4 +528,6 @@
 <!--Upload 02/05/2024-->
 <moqui.basic.Enumeration description="Product Crust" parentEnumId="PatComponent" enumId="PatCrust" enumTypeId="ProductAssocType"/>
 
+<!-- Upload 17/05/2024 -->
+<moqui.basic.Enumeration description="Crust Asset (Good)" enumId="PtCrustAsset" enumTypeId="ProductType" parentEnumId="PtAsset"/>
 
