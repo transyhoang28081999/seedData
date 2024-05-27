@@ -530,4 +530,6 @@
 
 <!-- Upload 17/05/2024 -->
 <moqui.basic.Enumeration description="Crust Asset (Good)" enumId="PtCrustAsset" enumTypeId="ProductType" parentEnumId="PtAsset"/>
+<!-- Upoad 27/05/2024 -->
+<moqui.basic.LocalizedMessage original="Product Store [${productStoreId}] not config facility yet" locale="vi_VN" localized="Kênh bán hàng [${productStoreId}] chưa cấu hình kho hàng mặc định"/>
 
