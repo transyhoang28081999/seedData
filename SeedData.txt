@@ -532,4 +532,12 @@
 <moqui.basic.Enumeration description="Crust Asset (Good)" enumId="PtCrustAsset" enumTypeId="ProductType" parentEnumId="PtAsset"/>
 <!-- Upoad 27/05/2024 -->
 <moqui.basic.LocalizedMessage original="Product Store [${productStoreId}] not config facility yet" locale="vi_VN" localized="Kênh bán hàng [${productStoreId}] chưa cấu hình kho hàng mặc định"/>
-
+<!-- Upload 05/06/2024 -->
+    <moqui.service.job.ServiceJob jobName="DisableAccountForQuittingPosition" description="Disable Account For Quitting Position"
+                                  serviceName="gsources.hr.EmployeeServices.disable#AccountForQuittingPosition"
+                                  cronExpression="0 0 0 * * ?" paused="N"
+    />
+<!--Upload 10/06/2024-->
+<moqui.basic.LocalizedMessage original="ThruDate cannot be less than the present" locale="vi_VN" localized="Ngày kết thúc không thể ở trước thời điểm hiện tại"/>
+    <moqui.basic.LocalizedMessage original="Authenticate failed for user ${newUserAccount.username} because account is disabled and is not schedule to be automatically re-enabled [DISPRM]."
+                                  locale="vi_VN" localized="Đăng nhập thất bại với ${newUserAccount.username} vì tài khoản đã bị khóa và không có hẹn giờ mở lại. [DISPRM]"/>
