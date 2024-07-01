@@ -529,6 +529,11 @@
     <moqui.basic.Enumeration description="Trả vỏ nhà cung cấp" enumId="ItemCrustVendorReturn" parentEnumId="ItemCrust" enumTypeId="ItemType" />
     <moqui.basic.Enumeration description="Khách hàng mượn vỏ" enumId="ItemCrustCustomerBorrow" parentEnumId="ItemCrust" enumTypeId="ItemType" />
     <moqui.basic.Enumeration description="Khách hàng trả vỏ" enumId="ItemCrustCustomerReturn" parentEnumId="ItemCrust" enumTypeId="ItemType" />
+
+            <moqui.basic.Enumeration description="Vendor Incoming Crust" parentEnumId="ShpTpIncoming" enumId="ShpTpVendorIncomingCrust" enumTypeId="ShipmentType"/>
+            <moqui.basic.Enumeration description="Vendor Outgoing Crust" parentEnumId="ShpTpOutgoing" enumId="ShpTpVendorOutgoingCrust" enumTypeId="ShipmentType"/>
+            <moqui.basic.Enumeration description="Customer Incoming Crust" parentEnumId="ShpTpIncoming" enumId="ShpTpCustomerIncomingCrust" enumTypeId="ShipmentType"/>
+            <moqui.basic.Enumeration description="Customer Outgoing Crust" parentEnumId="ShpTpOutgoing" enumId="ShpTpCustomerOutgoingCrust" enumTypeId="ShipmentType"/>
 <!--Upload 02/05/2024-->
 <moqui.basic.Enumeration description="Product Crust" parentEnumId="PatComponent" enumId="PatCrust" enumTypeId="ProductAssocType"/>
 
@@ -545,3 +550,47 @@
 <moqui.basic.LocalizedMessage original="ThruDate cannot be less than the present" locale="vi_VN" localized="Ngày kết thúc không thể ở trước thời điểm hiện tại"/>
     <moqui.basic.LocalizedMessage original="Authenticate failed for user ${newUserAccount.username} because account is disabled and is not schedule to be automatically re-enabled [DISPRM]."
                                   locale="vi_VN" localized="Đăng nhập thất bại với ${newUserAccount.username} vì tài khoản đã bị khóa và không có hẹn giờ mở lại. [DISPRM]"/>
+<!--Upload 12/06/2024-->
+    <moqui.basic.Enumeration description="Hóa đơn vỏ - nhà cung cấp" enumId="InvoiceCrustsVendor" enumTypeId="InvoiceType"/>
+    <moqui.basic.Enumeration description="Hóa đơn vỏ - khách hàng" enumId="InvoiceCrustsCustomer" enumTypeId="InvoiceType"/>
+	<moqui.basic.Enumeration description="Hóa đơn cược vỏ" enumId="InvoiceCrustsDeposit" enumTypeId="InvoiceType"/>
+
+    <moqui.basic.Enumeration enumId="AttCrustsVendor" description="Crusts of Vendor" parentEnumId="AttObligation" enumTypeId="AcctgTransType"/>
+    <moqui.basic.Enumeration enumId="AttCrustsCustomer" description="Crusts of Customer" parentEnumId="AttObligation" enumTypeId="AcctgTransType"/>
+<moqui.basic.Enumeration enumId="AttCrustsDeposit" description="Deposit for crusts" parentEnumId="AttObligation" enumTypeId="AcctgTransType"/>
+
+<!--Thành phần vỏ-->
+    <mantle.ledger.config.ItemTypeGlAccount itemTypeEnumId="ItemCrustDeposit" glAccountId="244" direction="I" organizationPartyId="TT200Settings"/>
+    <mantle.ledger.config.ItemTypeGlAccount itemTypeEnumId="ItemCrustVendorReceipt" glAccountId="244" direction="I" organizationPartyId="TT200Settings"/>
+    <mantle.ledger.config.ItemTypeGlAccount itemTypeEnumId="ItemCrustVendorReturn" glAccountId="157" direction="O" organizationPartyId="TT200Settings"/>
+    <mantle.ledger.config.ItemTypeGlAccount itemTypeEnumId="ItemCrustCustomerBorrow" glAccountId="157" direction="O" organizationPartyId="TT200Settings"/>
+    <mantle.ledger.config.ItemTypeGlAccount itemTypeEnumId="ItemCrustCustomerReturn" glAccountId="157" direction="I" organizationPartyId="TT200Settings"/>
+
+    <mantle.ledger.config.InvoiceTypeTransType invoiceTypeEnumId="InvoiceCrustsVendor" organizationPartyId="TT200Settings" isPayable="Y" acctgTransTypeEnumId="AttCrustsVendor" glAccountId="1531"/>
+    <mantle.ledger.config.InvoiceTypeTransType invoiceTypeEnumId="InvoiceCrustsVendor" organizationPartyId="TT200Settings" isPayable="N" acctgTransTypeEnumId="AttCrustsVendor" glAccountId="1531"/>
+    <mantle.ledger.config.InvoiceTypeTransType invoiceTypeEnumId="InvoiceCrustsCustomer" organizationPartyId="TT200Settings" isPayable="Y" acctgTransTypeEnumId="AttCrustsCustomer" glAccountId="1531"/>
+    <mantle.ledger.config.InvoiceTypeTransType invoiceTypeEnumId="InvoiceCrustsCustomer" organizationPartyId="TT200Settings" isPayable="N" acctgTransTypeEnumId="AttCrustsCustomer" glAccountId="1531"/>
+    <mantle.ledger.config.InvoiceTypeTransType invoiceTypeEnumId="InvoiceCrustsDeposit" organizationPartyId="TT200Settings" isPayable="Y" acctgTransTypeEnumId="AttCrustsDeposit" glAccountId="1121"/>
+
+<mantle.ledger.config.ItemTypeGlAccount itemTypeEnumId="ItemCrustDeposit" glAccountId="244" direction="I" organizationPartyId="ORG_COMPANY_CORP"/>
+    <mantle.ledger.config.ItemTypeGlAccount itemTypeEnumId="ItemCrustVendorReceipt" glAccountId="244" direction="I" organizationPartyId="ORG_COMPANY_CORP"/>
+    <mantle.ledger.config.ItemTypeGlAccount itemTypeEnumId="ItemCrustVendorReturn" glAccountId="157" direction="O" organizationPartyId="ORG_COMPANY_CORP"/>
+    <mantle.ledger.config.ItemTypeGlAccount itemTypeEnumId="ItemCrustCustomerBorrow" glAccountId="157" direction="O" organizationPartyId="ORG_COMPANY_CORP"/>
+    <mantle.ledger.config.ItemTypeGlAccount itemTypeEnumId="ItemCrustCustomerReturn" glAccountId="157" direction="I" organizationPartyId="ORG_COMPANY_CORP"/>
+
+    <mantle.ledger.config.InvoiceTypeTransType invoiceTypeEnumId="InvoiceCrustsVendor" organizationPartyId="ORG_COMPANY_CORP" isPayable="Y" acctgTransTypeEnumId="AttCrustsVendor" glAccountId="1531"/>
+    <mantle.ledger.config.InvoiceTypeTransType invoiceTypeEnumId="InvoiceCrustsVendor" organizationPartyId="ORG_COMPANY_CORP" isPayable="N" acctgTransTypeEnumId="AttCrustsVendor" glAccountId="1531"/>
+    <mantle.ledger.config.InvoiceTypeTransType invoiceTypeEnumId="InvoiceCrustsCustomer" organizationPartyId="ORG_COMPANY_CORP" isPayable="Y" acctgTransTypeEnumId="AttCrustsCustomer" glAccountId="1531"/>
+    <mantle.ledger.config.InvoiceTypeTransType invoiceTypeEnumId="InvoiceCrustsCustomer" organizationPartyId="ORG_COMPANY_CORP" isPayable="N" acctgTransTypeEnumId="AttCrustsCustomer" glAccountId="1531"/>
+    <mantle.ledger.config.InvoiceTypeTransType invoiceTypeEnumId="InvoiceCrustsDeposit" organizationPartyId="ORG_COMPANY_CORP" isPayable="Y" acctgTransTypeEnumId="AttCrustsDeposit" glAccountId="1121"/>
+
+    <mantle.ledger.config.AssetTypeGlAccount assetTypeEnumId="TOOLS_SUPPLIES" classEnumId="AsClsInventorySub" organizationPartyId="TT200Settings" assetGlAccountId="1531" wipAssetGlAccountId="" receiptGlAccountId="244" issuanceGlAccountId="157" transferGlAccountId="" profitGlAccountId="" lossGlAccountId="" receiptTransTypeEnumId="AttInventoryReceipt" issuanceTransTypeEnumId="AttInventoryIssuance" shrinkageGlAccountId="" foundGlAccountId=""/>
+    <mantle.ledger.config.AssetTypeGlAccount assetTypeEnumId="TOOLS_SUPPLIES" classEnumId="AsClsInventorySub" organizationPartyId="ORG_COMPANY_CORP" assetGlAccountId="1531" wipAssetGlAccountId="" receiptGlAccountId="244" issuanceGlAccountId="157" transferGlAccountId="" profitGlAccountId="" lossGlAccountId="" receiptTransTypeEnumId="AttInventoryReceipt" issuanceTransTypeEnumId="AttInventoryIssuance" shrinkageGlAccountId="" foundGlAccountId=""/>
+
+
+    <moqui.basic.EnumGroupMember enumId="ItemCrustVendorReturn" enumGroupEnumId="EngItemsProduct"/>
+    <moqui.basic.EnumGroupMember enumId="ItemCrustCustomerReturn" enumGroupEnumId="EngItemsProduct"/>
+
+<!-- Upload 18/06/2024 -->
+<moqui.basic.LocalizedMessage original="This employee is not valid" locale="vi_VN" localized="Nhân viên này không hợp lệ"/>
+<moqui.basic.LocalizedMessage original="Product not config the price yet" locale="vi_VN" localized="Vỏ sản phẩm này chưa cấu hình giá"/>
