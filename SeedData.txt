@@ -594,3 +594,7 @@
 <!-- Upload 18/06/2024 -->
 <moqui.basic.LocalizedMessage original="This employee is not valid" locale="vi_VN" localized="Nhân viên này không hợp lệ"/>
 <moqui.basic.LocalizedMessage original="Product not config the price yet" locale="vi_VN" localized="Vỏ sản phẩm này chưa cấu hình giá"/>
+
+<!--Upload01/07/2024-->
+    <moqui.basic.LocalizedMessage original="May not configure because Timesheet has been Approved or Completed" locale="vi_VN" localized="Không thể cấu hình vì Bảng công đã duyệt hoặc đã hoàn thành"/>
+    <moqui.basic.LocalizedMessage original="May not configure because Timesheet has had TimeEntry" locale="vi_VN" localized="Không thể cấu hình vì Bảng công đã có ghi công"/>
