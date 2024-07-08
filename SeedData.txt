@@ -595,6 +595,57 @@
 <moqui.basic.LocalizedMessage original="This employee is not valid" locale="vi_VN" localized="Nhân viên này không hợp lệ"/>
 <moqui.basic.LocalizedMessage original="Product not config the price yet" locale="vi_VN" localized="Vỏ sản phẩm này chưa cấu hình giá"/>
 
-<!--Upload01/07/2024-->
+<!--Upload 01/07/2024-->
     <moqui.basic.LocalizedMessage original="May not configure because Timesheet has been Approved or Completed" locale="vi_VN" localized="Không thể cấu hình vì Bảng công đã duyệt hoặc đã hoàn thành"/>
     <moqui.basic.LocalizedMessage original="May not configure because Timesheet has had TimeEntry" locale="vi_VN" localized="Không thể cấu hình vì Bảng công đã có ghi công"/>
+
+<!--Upload 04/07/2024-->
+<moqui.basic.LocalizedMessage original="SupremeOwner" locale="default" localized="Chủ sở hữu tối cao"/>
+<moqui.basic.LocalizedMessage locale="default" original="TimePeriodBaseNameTemplate" localized="Kỳ lương cha mới (cần thay đổi tên)"/>
+<!-- Upload 08/07/2024 CRM-->
+<moqui.basic.LocalizedMessage locale="vi_VN" original="Planned" localized="Lên kế hoạch" />
+    <moqui.basic.LocalizedMessage locale="vi_VN" original="Approved" localized="Được duyệt" />
+    <moqui.basic.LocalizedMessage locale="vi_VN" original="In Progress" localized="Đang hoạt động" />
+    <moqui.basic.LocalizedMessage locale="vi_VN" original="Completed" localized="Hoàn thành" />
+    <moqui.basic.LocalizedMessage locale="vi_VN" original="Cancelled" localized="Đã hủy" />
+
+    <moqui.basic.LocalizedMessage locale="vi_VN" original="Thru date must be be later than from date" localized="Ngày kết thúc phải muộn hơn ngày bắt đầu" />
+
+    <moqui.basic.LocalizedMessage locale="vi_VN" original="Campaign ${campaignString} is still working" localized="Chiến dịch ${campaignString} vẫn đang hoạt động" />
+
+    <moqui.basic.LocalizedMessage locale="vi_VN" original="Contact with ID ${contactMechId} existed" localized="Mã liên hệ ${contactMechId} đã tồn tại" />
+
+    <moqui.basic.LocalizedMessage locale="vi_VN" original="This opportunity already had this contact" localized="Liên hệ này đã được đính kèm trong cơ hội" /> 
+    <mantle.sales.opportunity.SalesOpportunityStage opportunityStageId="PROSPECTING" description="Prospecting" sequenceNum="1" defaultProbability=""/>
+    <mantle.sales.opportunity.SalesOpportunityStage opportunityStageId="DISCOVERY" description="Discovery" sequenceNum="2" defaultProbability=""/>
+    <mantle.sales.opportunity.SalesOpportunityStage opportunityStageId="EVALUATING" description="Evaluating" sequenceNum="3" defaultProbability=""/>
+    <mantle.sales.opportunity.SalesOpportunityStage opportunityStageId="CLOSING" description="Closing" sequenceNum="4" defaultProbability=""/>
+    <mantle.sales.opportunity.SalesOpportunityStage opportunityStageId="CLOSED_WON" description="Closed won" sequenceNum="5" defaultProbability="1"/>
+    <mantle.sales.opportunity.SalesOpportunityStage opportunityStageId="CLOSED_LOST" description="Closed lost" sequenceNum="6" defaultProbability="0"/>
+
+    <!--Config type for SalesOpportunity-->
+    <moqui.basic.EnumerationType description="Sales Opportunity Types" enumTypeId="SalesOpportunityType"/>
+    <moqui.basic.Enumeration description="Net New Business" enumId="SotNetNewBusiness" enumTypeId="SalesOpportunityType"/>
+    <moqui.basic.Enumeration description="Cross-Sell" enumId="SotCrossSell" enumTypeId="SalesOpportunityType"/>
+    <moqui.basic.Enumeration description="Up-Sell" enumId="SotUpSell" enumTypeId="SalesOpportunityType"/>
+    <moqui.basic.Enumeration description="Migration" enumId="SotMigration" enumTypeId="SalesOpportunityType"/>
+    <moqui.basic.Enumeration description="Renewal" enumId="SotRenewal" enumTypeId="SalesOpportunityType"/>
+    <moqui.basic.Enumeration description="CRM Users" enumId="UgtCrmManager" enumTypeId="UserGroupType"/>
+
+    <userGroups userGroupId="MKT_MANAGER" description="Marketing Manager" groupTypeEnumId="UgtCrmManager"/>
+
+    <!-- Artifact group for REST API -->
+    <moqui.security.ArtifactGroup artifactGroupId="CRM_API" description="CRM REST API"/>
+    <moqui.security.ArtifactGroupMember artifactGroupId="CRM_API" artifactTypeEnumId="AT_REST_PATH"
+                                        inheritAuthz="Y" artifactName="/crm"/>
+
+    <!-- Full permissions for the ADMIN user group -->
+    <moqui.security.ArtifactAuthz artifactAuthzId="CRM_API_AUTHZ_ALL_ADMIN" userGroupId="ADMIN" artifactGroupId="CRM_API"
+                                  authzTypeEnumId="AUTHZT_ALWAYS" authzActionEnumId="AUTHZA_ALL"/>
+
+    <!-- Full permissions for the MKT_MANAGER user group -->
+    <moqui.security.ArtifactAuthz artifactAuthzId="CRM_API_AUTHZ_ALL_MANAGER" userGroupId="MKT_MANAGER" artifactGroupId="CRM_API"
+                                  authzTypeEnumId="AUTHZT_ALWAYS" authzActionEnumId="AUTHZA_ALL"/>
+
+<moqui.security.ArtifactGroupMember artifactGroupId="GSOURCES_CONNECTION_API" artifactTypeEnumId="AT_REST_PATH"
+    inheritAuthz="Y" artifactName="/system"/>
